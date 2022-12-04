@@ -1,7 +1,7 @@
-	#include < iostream >
-	#include < string.h >
-	#include < iomanip >
-	using namespace std;
+#include < iostream >
+#include < string.h >
+#include < iomanip >
+using namespace std;
 struct Employee{
 		//None of them have size upto how much they can store because we dont know max limit *DELETE THIS LINE ON PRODUCTION*
 		string ID;//string because it contains "-"
