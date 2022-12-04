@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string.h>
 #include <iomanip>
-
 using namespace std;
 struct Employee{
 	//None of them have size upto how much they can store because we dont know max limit *DELETE THIS LINE ON PRODUCTION*
@@ -33,8 +32,8 @@ void Sort();// has two choices ascending and descending // sorts based on: Salar
 	int sortArrangment();
 		void ascending_selection(Employee Data[],int numberOfEmployees,char sortUsing);
 		void descending_selection(Employee Data[],int numberOfEmployees,char sortUsing);
-		void ascending_bubble();
-		void descending_bubble();
+		void ascending_bubble(Employee Data[],int numberOfEmployees,char sortUsing);
+		void descending_bubble(Employee Data[],int numberOfEmployees,char sortUsing);
 void Add();// adds new data into our database
 void remove();//removes searched data from our databse 
 //Linked List struct will be applied after next week to save time and reduce complexity *DELETE THIS LINE ON PRODUCTION*
@@ -103,8 +102,8 @@ void Sort(){
 	int algo = sortAlgorithm(), arr = sortArrangment();
 	if(algo == 1 && arr == 1) ascending_selection(RawData,3,use);
 	else if(algo == 1 && arr == 2) descending_selection(RawData,3,use);
-	else if(algo==2 && arr ==1) ascending_bubble();		
-	else ascending_bubble();
+	else if(algo==2 && arr ==1) ascending_bubble(RawData,3,use);		
+	else ascending_bubble(RawData,3,use);
 }
 char sortUsing(){
 	system("pause");
@@ -115,7 +114,7 @@ char sortUsing(){
 	cout << "Available Options:\n\n";
    	cout << "\n\t1.based on Salary" << setw ( 20 ) << endl;
 	cout << "\n\t2.based on First name" << setw ( 20 ) << endl;
-    cout << "\n\t3.based on Department" << setw ( 15) << endl;
+        cout << "\n\t3.based on Department" << setw ( 15) << endl;
 	cout << "\n\t4. Exit" << setw ( 20 ) << endl;
 	cout << "-------------------------"<< "--------" << setw ( 10 )<< "------------------" << setw ( 10 ) << "-------------------------\n\n";
 	cout<<"\t\t your choice?"<<endl;
@@ -170,11 +169,68 @@ int sortArrangment(){
 	if(p == 3) system("cls");MainMenu();
 	return p;
 }
-void ascending_bubble(){
-//write ascending bubble search algorithm here	
+void ascending_bubble(Employee Data[],int numberOfEmployees,char sortUsing){
+	switch(sortUsing){
+		case 'S'://using salary 	
+			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int flag;
+					for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+						flag=0;
+						if(Data[j].Salary>Data[j+1].Salary) SwapEmployee(&Data[j],&Data[j+1]); flag=1;
+				}
+			}
+			break;
+		case 'D'://using department
+			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int flag;
+					for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+						flag=0;
+							if(Data[j].Dep<Data[j+1].Dep) SwapEmployee(&Data[j],&Data[j+1]); flag=1;
+				}	
+			}
+			break;
+		case 'N'://using name
+			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+					int flag;
+						for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+							flag=0;
+								if(Data[j].FName<Data[j+1].FName)SwapEmployee(&Data[j],&Data[j+1]);flag=1;
+						}
+			break;
+				}
+	Display(Data, numberOfEmployees);
 }
-void descending_bubble(){
+void descending_bubble(Employee Data[],int numberOfEmployees,char sortUsing){
 // write descending bubble search algorithm here
+	switch(sortUsing){
+		case 'S'://using salary 	
+			for(int i=0;i>numberOfEmployees-1;i++){// going up the list 
+				int flag;
+					for(int j=i+1;j>numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+						flag=0;
+						if(Data[j].Salary>Data[J+1].Salary) SwapEmployee(&Data[j],&Data[j+1]); flag=1;
+				}
+			}
+			break;
+		case 'D'://using department
+			for(int i=0;i>numberOfEmployees-1;i++){// going up the list 
+				int flag;
+					for(int j=i+1;j>numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+						flag=0;
+							if(Data[j].Dep>Data[j+1].Dep) SwapEmployee(&Data[j],&Data[j+1]); flag=1;
+				}	
+			}
+			break;
+		case 'N'://using name
+			for(int i=0;i>numberOfEmployees-1;i++){// going up the list 
+					int flag;
+						for(int j=i+1;j>numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+							flag=0;
+								if(Data[j].FName>Data[imin].FName)SwapEmployee(&Data[j],&Data[j+1]); flag=1;
+						}
+			break;
+				}
+	Display(Data, numberOfEmployees);
 }
 void ascending_selection(Employee Data[],int numberOfEmployees,char sortUsing){
 	switch(sortUsing){
@@ -192,7 +248,6 @@ void ascending_selection(Employee Data[],int numberOfEmployees,char sortUsing){
 		case 'D'://using department
 			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
 				int imin =i;
-
 				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
 					if(Data[j].Dep<Data[imin].Dep) imin = j;
 				}
@@ -231,7 +286,6 @@ void descending_selection(Employee Data[],int numberOfEmployees,char sortUsing){
 		case 'D'://using department
 			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
 				int imin =i;
-
 				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
 					if(Data[j].Dep>Data[imin].Dep) imin = j;
 				}
@@ -256,12 +310,13 @@ void descending_selection(Employee Data[],int numberOfEmployees,char sortUsing){
 }
 void Add(){
 // write the add algorithm here
+int n;
 	cout << "-------------------------"<< "--------" << setw ( 10 )<< "------------------" << setw ( 10 ) << "-------------------------\n\n";
 	cout<<"\n\t How many data you want to add?"<<endl;
 	cin>>n;
 	for(int i=0;i<n;i++){
 		char c;
-			cout << "-------------------------"<< "--------" << setw ( 10 )<< "------------------" << setw ( 10 ) << "-------------------------\n\n";
+		cout << "-------------------------"<< "--------" << setw ( 10 )<< "------------------" << setw ( 10 ) << "-------------------------\n\n";
 		cout<<"\n\tEnter each value respectively"<<endl;
 		cout<<"ID";
 		cout<<"First Name";
@@ -300,7 +355,6 @@ void MainMenu(){
          << "Pay Roll" << setw ( 10 )
          << " Management System" << setw ( 10 )
          << "-------------------------\n\n";
-  
     cout << "\tAvailable Options:\n\n";
     	cout << "-------------------------"<< "--------" << setw ( 10 )<< "------------------" << setw ( 10 ) << "-------------------------\n\n";
     	cout << "\n\t 1. Display" << setw ( 20 ) << endl;
@@ -308,7 +362,7 @@ void MainMenu(){
 		cout << "\n\t 3. Sort" << setw ( 20 ) << endl;
 		cout << "\n\t 4. Add" << setw ( 20 ) << endl;
 		cout << "\n\t 5. Remove" << setw ( 20 ) << endl;
-        cout << "\n\t 6. Exit" << setw ( 20 ) << endl;
+                cout << "\n\t 6. Exit" << setw ( 20 ) << endl;
     int option;
     // Input Options
     cin >> option;
@@ -322,8 +376,7 @@ void MainMenu(){
     else if (option == 6) exit(0);
 	else {
         cout << "Expected Options"<< " are 1/2/3/4/5/6";
-        MainMenu();
+        MainMenu();}
     }
-}
 
 
