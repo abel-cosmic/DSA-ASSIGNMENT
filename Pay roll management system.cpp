@@ -75,7 +75,7 @@ void Search(){ //Implements the Search menu
 	int algo = searchAlgorithm();
 	if ( algo == 1 ) LinearSearch( RawData, use);
 	else if ( algo == 1 ) LinearSearch(RawData, use);
-//	else if ( algo == 2 ) BinarySearch( RawData, use);		
+	else if ( algo == 2 ) BinarySearch( RawData, use);		
 //	else BinarySearch( RawData, use);
 }
 char searchUsing(){
@@ -124,7 +124,14 @@ void LinearSearch( Employee Data[ ], char searchUsing){
 	// write linear search algorithm here
 	string key;
 	switch( searchUsing){
-		case 'I'://using salary 
+		case 'I'://using salary
+		for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int imin =i;
+				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+					if(Data[j].ID<Data[imin].ID) imin = j;
+				}
+				if(imin != i) SwapEmployee(&Data[i],&Data[imin]);
+			} 
 			cout << "Enter the ID of the Employee you want to be searched?";
 			cin>> key;	
 			for ( int i = 0; i < numberOfEmployees - 1; i++){// going up the list
@@ -134,6 +141,13 @@ void LinearSearch( Employee Data[ ], char searchUsing){
 			}	
 			break;
 		case 'P'://using Phone Number
+			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int imin =i;
+				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+					if(Data[j].PNum<Data[imin].PNum) imin = j;
+				}
+				if(imin != i) SwapEmployee(&Data[i],&Data[imin]);
+			}
 			cout << "Enter the Phone Number of the Employee you want to be searched?";
 			cin >> key;	
 			for ( int i = 0; i < numberOfEmployees - 1; i++){// going up the list
@@ -143,6 +157,13 @@ void LinearSearch( Employee Data[ ], char searchUsing){
 			}	
 			break;
 		case 'A'://using Account Number
+				for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int imin =i;
+				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+					if(Data[j].AccNum<Data[imin].AccNum) imin = j;
+				}
+				if(imin != i) SwapEmployee(&Data[i],&Data[imin]);
+			}
 			cout << "Enter the Account Number of the Employee you want to be searched?";
 			cin >> key;	
 			for ( int i = 0; i < numberOfEmployees - 1; i++){// going up the list
@@ -154,49 +175,90 @@ void LinearSearch( Employee Data[ ], char searchUsing){
 	}
 }
 void BinarySearch(Employee Data[ ], char searchUsing){
-//write Binary search algorithm here
+//write the binary search algorithm here
 	string key;
+	int low = 0;
+	int mid;
+	int high = numberOfEmployees-1;
+	system("cls");
+	system("pause");
 	switch( searchUsing){
-		case 'I'://using ID 	
-			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list 
-				int flag;
-				for ( int j = i + 1; j > numberOfEmployees; j++){//looking for the smallest value to swap it for the current value
-					flag = 0 ;
-					if ( Data[ j ].Salary > Data[j + 1 ].Salary){
-						SwapEmployee( &Data[ j ], &Data[ j + 1 ]); flag = 1;
-					}
-				} 
-			}
+		case 'I'://using salary
+		for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int imin =i;
+				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+					if(Data[j].ID<Data[imin].ID) imin = j;
+				}
+				if(imin != i) SwapEmployee(&Data[i],&Data[imin]);
+			} 
 			cout << "Enter the ID of the Employee you want to be searched?";
-			cin >> key;
-			
+			cin>> key;	
+			while(low <= high){
+				mid = ( high + low)/2;
+				if(key == Data[mid].ID){
+				DisplaySearch(Data[mid]);
+				}
+				else if( key < Data[mid].ID){
+					high = mid -1;
+				}
+				else{
+					low = mid +1;
+				}
+			}
+			cout<<"the data u have entered is incorrect try to input acorrect ID number please";
+			MainMenu();
 			break;
 		case 'P'://using Phone Number
-			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list 
-				int flag;
-				for ( int j = i + 1; j > numberOfEmployees; j++){//looking for the smallest value to swap it for the current value
-					flag = 0;
-					if ( Data[ j ].Dep > Data[ j + 1 ].Dep){
-						SwapEmployee( &Data[ j ], &Data[ j + 1 ]); flag = 1;
-					}
+			for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int imin =i;
+				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+					if(Data[j].PNum<Data[imin].PNum) imin = j;
 				}
+				if(imin != i) SwapEmployee(&Data[i],&Data[imin]);
 			}
 			cout << "Enter the Phone Number of the Employee you want to be searched?";
 			cin >> key;	
+				while(low <= high){
+				mid = ( high + low)/2;
+				if(key == Data[mid].PNum){
+				DisplaySearch(Data[mid]);
+				}
+				else if( key < Data[mid].PNum){
+					high = mid -1;
+				}
+				else{
+					low = mid +1;
+				}
+			}
+			cout<<"the data u have entered is incorrect try to input acorrect ID number please";
+			MainMenu();
 			break;
 		case 'A'://using Account Number
-			for ( int i = 0; i > numberOfEmployees - 1; i++){
-				for ( int j = i + 1; j > numberOfEmployees; j++){
-					if ( Data[ j ].FName > Data[j+1].FName){
-						SwapEmployee( &Data[ j ], &Data[ j + 1]); 
-					}
-				}							
+				for(int i=0;i<numberOfEmployees-1;i++){// going up the list 
+				int imin =i;
+				for(int j=i+1;j<numberOfEmployees;j++){//looking for the smallest value to swap it for the current value
+					if(Data[j].AccNum<Data[imin].AccNum) imin = j;
+				}
+				if(imin != i) SwapEmployee(&Data[i],&Data[imin]);
 			}
 			cout << "Enter the Account Number of the Employee you want to be searched?";
 			cin >> key;	
+				while(low <= high){
+				mid = ( high + low)/2;
+				if(key == Data[mid].AccNum){
+				DisplaySearch(Data[mid]);
+				}
+				else if( key < Data[mid].AccNum){
+					high = mid -1;
+				}
+				else{
+					low = mid +1;
+				}
+			}
+			cout<<"the data u have entered is incorrect try to input acorrect ID number please";
+			MainMenu();	
 			break;
 	}
-	Display(Data);
 }
 
 void Sort(){
@@ -319,11 +381,9 @@ void descending_bubble( Employee Data[ ], char sortUsing){
 	switch(sortUsing){
 		case 'S'://using salary 	
 			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list 
-				int flag;
-				for ( int j = i + 1; j > numberOfEmployees; j++){//looking for the smallest value to swap it for the current value
-					flag = 0 ;
+				for ( int j = 0; j > numberOfEmployees-i-1; j++){//looking for the smallest value to swap it for the current value
 					if ( Data[ j ].Salary > Data[j + 1].Salary){
-						SwapEmployee( &Data[ j ], &Data[ j + 1 ]); flag = 1;
+						SwapEmployee( &Data[ j ], &Data[ j + 1 ]);
 					}
 				}
 			}
@@ -339,18 +399,18 @@ void descending_bubble( Employee Data[ ], char sortUsing){
 				}
 			}	
 			break;
-//		case 'N'://using name
-//			for ( int i = 0; i > numberOfEmployees - 1; i++){
-//				int flag;
-//				for ( int j = i + 1; j > numberOfEmployees; j++){
-//					flag = 0;
-//					if ( Data[ j ].FName > Data[ imin ].FName){
-//						SwapEmployee( &Data[ j ], &Data[ j + 1]); 
-//						flag = 1;
-//					}
-//				}
-//			}
-//			break;
+	case 'N'://using department
+			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list 
+				int flag;
+				for ( int j = i + 1; j > numberOfEmployees; j++){//looking for the smallest value to swap it for the current value
+					flag = 0;
+					if ( Data[ j ].FName > Data[j + 1].Dep){
+						SwapEmployee( &Data[ j ], &Data[ j + 1 ]); flag = 1;
+					}
+				}
+			}	
+			break;
+
 	}
 	Display(Data);
 }//looking for the smallest value to swap it for the current value// going up the list 			
