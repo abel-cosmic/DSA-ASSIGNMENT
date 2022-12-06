@@ -19,13 +19,14 @@ struct Employee{
 }RawData[1000];
 
 void MainMenu();
-void Display( Employee Data[ ], int numberOfEmployee);//displays the content of our data base 
+void Display( Employee Data[ ]);//displays the content of our data base 
+void DisplaySearch(Employee result);
 void SwapEmpoyee( Employee *x, Employee *y);//used to swap employees
 void Search();//has two choice linear and bubble // searches: ID,PNum,AccNum,& Fname only
 char searchUsing();
 int searchAlgorithm();
-void LinearSearch( Employee Data[ ], string key, char searchUsing);
-void BinarySearch( Employee Data[ ], string key, char searchUsing);
+void LinearSearch( Employee Data[ ], char searchUsing);
+void BinarySearch( Employee Data[ ], char searchUsing);
 void Sort();// has two choices ascending and descending // sorts based on: Salary,Dep,& Fname
 char sortUsing();
 int sortAlgorithm();
@@ -44,13 +45,25 @@ int main() {
 	MainMenu();
 	return 0;
 }
-void Display( Employee Data[ ], int numberOfEmployees){ 
+void Display( Employee Data[ ]){ 
 	system("cls");
 //	cout<<setfill('_')<<setw(155);
 	cout << "\n|" << setw ( 12 ) << "ID" << "|"<< setw ( 10 )  << "First Name" << "|" << setw ( 12 ) << "Last Name" << setw ( 1 )<< "|" << "Gender"  <<"|" << setw ( 14 )<< "Phone Number"  << "|" << setw ( 35 )<< "Email"  << "|" << setw ( 25 ) << "Department" << "|" << setw ( 20 )<< "Account Number"  << "|"  << setw ( 10 ) << "Salary"<< "|\n";
-	for ( int i = 0; i < 300; i++){
+	for ( int i = 0; i < numberOfEmployees; i++){
 		cout << "|"  << setw ( 12 )<< Data[ i ].ID << "|"  << setw ( 10 ) << Data[ i ].FName<< "|" << setw ( 12 ) << Data[ i ].LName << "|"  << setw ( 6 )<< Data[ i ].Gender << "|"<< setw ( 13 ) << Data[ i ].PNum  << "|"<< setw ( 35 ) << Data[ i ].Email  << "|"<< setw ( 25 )<<Data[ i ].Dep  << "|"<< setw ( 20 ) << Data[ i ].AccNum  << "|"  << setw ( 10 )<< Data[ i ].Salary << "|\n";
 	}
+}
+void DisplaySearch(Employee result){
+	system("cls");
+	cout<<"\n\t\tEmployee\n";
+	cout<<"\t\tName: "<<result.FName<<" "<<result.LName<<endl;
+	cout<<"\t\tId: "<<result.ID<<endl;
+	cout<<"\t\tGender: "<<result.Gender<<endl;
+	cout<<"\t\tEmail: "<<result.Email<<endl;
+	cout<<"\t\tPhone Number: "<<result.PNum<<endl;
+	cout<<"\t\tDepartment: "<<result.Dep<<endl;
+	cout<<"\t\tAccount Number:"<<result.AccNum<<endl;
+	cout<<"\t\tSalary: "<<result.Salary<<endl;
 }
 void SwapEmployee( Employee *x, Employee *y){
 	Employee temp = *x;
@@ -60,10 +73,10 @@ void SwapEmployee( Employee *x, Employee *y){
 void Search(){ //Implements the Search menu
 	char use = searchUsing();
 	int algo = searchAlgorithm();
-		if ( algo == 1 ) ascending_selection( RawData, use);
-		else if ( algo == 1 ) descending_selection(RawData, use);
-		else if ( algo == 2 ) ascending_bubble( RawData, use);		
-		else ascending_bubble( RawData, use);
+	if ( algo == 1 ) LinearSearch( RawData, use);
+	else if ( algo == 1 ) LinearSearch(RawData, use);
+//	else if ( algo == 2 ) BinarySearch( RawData, use);		
+//	else BinarySearch( RawData, use);
 }
 char searchUsing(){
 	use:
@@ -107,41 +120,42 @@ int searchAlgorithm(){
 	}
 	return r;
 }	
-void LinearSearch( Employee Data[ ], string key, char searchUsing){
+void LinearSearch( Employee Data[ ], char searchUsing){
 	// write linear search algorithm here
+	string key;
 	switch( searchUsing){
 		case 'I'://using salary 
 			cout << "Enter the ID of the Employee you want to be searched?";
-			cin >> key;	
-			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list
+			cin>> key;	
+			for ( int i = 0; i < numberOfEmployees - 1; i++){// going up the list
 				if(Data[ i ].ID == key ){
-					SwapEmployee( &Data[ i ], &Data[ 0 ]);
+					DisplaySearch(Data[i]);
 				}
 			}	
 			break;
 		case 'P'://using Phone Number
 			cout << "Enter the Phone Number of the Employee you want to be searched?";
 			cin >> key;	
-			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list
+			for ( int i = 0; i < numberOfEmployees - 1; i++){// going up the list
 				if(Data[ i ].ID == key ){
-					SwapEmployee( &Data[ i ], &Data[ 0 ]);
+					DisplaySearch(Data[i]);
 				}
 			}	
 			break;
 		case 'A'://using Account Number
 			cout << "Enter the Account Number of the Employee you want to be searched?";
 			cin >> key;	
-			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list
+			for ( int i = 0; i < numberOfEmployees - 1; i++){// going up the list
 				if(Data[ i ].ID == key ){
-					SwapEmployee( &Data[ i ], &Data[ 0 ]);
+					DisplaySearch(Data[i]);
 				}
 			}		
 			break;
-	}	
-	Display( Data, numberOfEmployees);
+	}
 }
-void BinarySearch(Employee Data[ ], string key, char searchUsing){
+void BinarySearch(Employee Data[ ], char searchUsing){
 //write Binary search algorithm here
+	string key;
 	switch( searchUsing){
 		case 'I'://using ID 	
 			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list 
@@ -155,6 +169,7 @@ void BinarySearch(Employee Data[ ], string key, char searchUsing){
 			}
 			cout << "Enter the ID of the Employee you want to be searched?";
 			cin >> key;
+			
 			break;
 		case 'P'://using Phone Number
 			for ( int i = 0; i > numberOfEmployees - 1; i++){// going up the list 
@@ -181,8 +196,9 @@ void BinarySearch(Employee Data[ ], string key, char searchUsing){
 			cin >> key;	
 			break;
 	}
-	Display( Data, numberOfEmployees);
+	Display(Data);
 }
+
 void Sort(){
 	//here try to make two options first bubble and seletcion and on both say ascending and descending order
 	char use = sortUsing();
@@ -297,7 +313,7 @@ void ascending_bubble( Employee Data[ ], char sortUsing){
 		}
 		break;
 	}
-	Display( Data, numberOfEmployees);
+	Display(Data);
 }
 void descending_bubble( Employee Data[ ], char sortUsing){
 	switch(sortUsing){
@@ -336,7 +352,7 @@ void descending_bubble( Employee Data[ ], char sortUsing){
 //			}
 //			break;
 	}
-	Display( Data, numberOfEmployees);
+	Display(Data);
 }//looking for the smallest value to swap it for the current value// going up the list 			
 void ascending_selection(Employee Data[], char sortUsing){
 	switch(sortUsing){
@@ -368,7 +384,7 @@ void ascending_selection(Employee Data[], char sortUsing){
 			}
 			break;
 	}
-	Display(Data, numberOfEmployees);
+	Display(Data);
 }	
 void descending_selection(Employee Data[], char sortUsing){
 	switch(sortUsing){
@@ -400,7 +416,7 @@ void descending_selection(Employee Data[], char sortUsing){
 			}
 			break;
 	}
-	Display(Data, numberOfEmployees);
+	Display(Data);
 }
 void Add(){
 	// write the add algorithm here
@@ -465,7 +481,7 @@ void MainMenu(){
 	cout<<endl;
 	// Call function on the bases of the
 	// above option
-	if ( option == 1) Display( RawData, 3);
+	if ( option == 1) Display(RawData);
 	else if ( option == 2) Search();
 	else if ( option == 3) Sort();
 	else if ( option == 4) Add();
