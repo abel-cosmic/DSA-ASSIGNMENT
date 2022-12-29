@@ -16,7 +16,13 @@ struct Employee{
 	string Dep;//Holds department
 	string AccNum;//String because account number contains "-"
 	double Salary;//takes values from 5000.00 - 50000.00
-}RawData[1000];
+}RawData[300];
+
+struct node{
+	Employee data;
+	node *next;
+}*temp,*del,*head=NULL,*cur,*bef;
+
 void MainMenu();
 void Display(Employee Data[ ]);//displays the content of our data base 
 void DisplaySearch(Employee result);
@@ -38,6 +44,10 @@ void Add();// adds new data into our database
 void remove(Employee Data[ ], char searchUsing);//removes searched data from our databse 
 void Read();
 void Write();
+void push(Employee em);
+void Add();
+void Remove();
+void DisplayLinked();
 //Linked List struct will be applied after next week to save time and reduce complexity *DELETE THIS LINE ON PRODUCTION*
 int main() {
 	Read();
@@ -498,7 +508,8 @@ void MainMenu(){
 		cout << "\n\t 3. Sort" << setw ( 20 ) << endl;
 		cout << "\n\t 4. Add" << setw ( 20 ) << endl;
 		cout << "\n\t 5. Remove" << setw ( 20 ) << endl;
-		cout << "\n\t 6. Exit" << setw ( 20 ) << endl;
+		cout << "\n\t 6. Display Linked List" << setw ( 20 ) << endl;
+		cout << "\n\t 7. Exit" << setw ( 20 ) << endl;
 		// Input Options
 		cin >> option;
 		cout<<endl;
@@ -507,13 +518,14 @@ void MainMenu(){
 		if ( option == 1) Display( RawData);
 		else if ( option == 2) Search();
 		else if ( option == 3) Sort();
-//		else if ( option == 4) Add();
-//		else if ( option == 5) remove();
-		else if ( option == 6) exit(0);
+		else if ( option == 4) Add();
+		else if ( option == 5) Remove();
+		else if ( option == 6) DisplayLinked();
+		else if ( option == 7 ) exit(0);
 		else{
-			cout << "Expected Options"<< " are 1/2/3/4/5/6";
+			cout << "Expected Options"<< " are 1/2/3/4/5/6/7";
 		}
-	} while(option!=6);
+	} while(option!=7);
 }
 void Read(){
 	ifstream File; File.open("DB.txt");
@@ -527,6 +539,99 @@ void Read(){
 		File>>RawData[i].Dep;
 		File>>RawData[i].AccNum;
 		File>>RawData[i].Salary;
+		push(RawData[i]);
 	}
 	File.close();
+}
+void Add() {
+	cout<<"Add\n";
+	cout<<"Enter Id:";
+	cin>>e.ID;
+	cout<<"Enter First Name: ";
+	cin>>e.FName;
+	cout<<"Enter Last Name: ";
+	cin>>e.LName;
+	cout<<"Enter Gender(Char): ";
+	cin>>e.Gender;
+	cout<<"Enter Phone Number: ";
+	cin>>e.PNum;
+	cout<<"Enter Email: ";
+	cin>>e.Email;
+	cout<<"Enter Department: ";
+	cin>>e.Dep;
+	cout<<"Enter Account Number: ";
+	cin>>e.AccNum;
+	salary:
+	cout<<"Enter Salary: ";
+	cin>>e.Salary;
+	if(e.Salary > 50000 || e.Salary < 5000) {
+		cout<<"Enter a salary ammont between 5k and 50k\n";
+		goto salary;
+	}
+	push(e);
+}
+void Remove(){
+	string id;
+	cout<<"Remove\n";
+	cout<<"Enter Id:";
+	cin>>id;
+	bool found = false;
+	bef = new node;
+    bef->next = NULL;
+    temp = head;
+    bef->next = temp;
+ 	while(bef->next!=NULL){
+ 		if(temp->data.ID == id){
+ 			cout<<"\t\tFound "<<temp->data.FName<<endl;
+ 			found = true;
+ 			bef->next = temp->next;
+			temp->next=NULL;
+			delete temp;
+			temp = bef->next;
+			cout<<"\t\tDeleted.\n\n";
+			continue;   
+		 }
+ 		if(temp->next != NULL){
+		 	temp = temp->next;
+	 	}
+		bef = bef->next;	
+	 }
+	 if(!found){
+	 	cout<<"\t\tNo Entry Exists!!!!!!!!!!!\n\n";
+	 }
+}
+void push(Employee em){
+	if(head == NULL){
+		temp = new node;
+		temp->data = em;
+		temp->next = NULL;
+		head = temp;
+		cur = head;
+	}else {
+		temp = new node;
+		temp->data = em;
+		temp->next = NULL;
+		cur->next = temp;
+		cur = cur->next;
+	}	
+}
+void DisplayLinked(){
+	system("cls");
+	cout << "\n|" << setw ( 12 ) << "ID" << "|"<< setw ( 10 )  << "First Name" << "|" << setw ( 12 ) << "Last Name" 
+	<< setw ( 1 )<< "|" << "Gender"  <<"|" << setw ( 14 )<< "Phone Number"  << "|" << setw ( 35 )<< "Email"  << "|" 
+	<< setw ( 25 ) << "Department" << "|" << setw ( 20 )<< "Account Number"  << "|"  << setw ( 10 ) << "Salary"<< "|\n";
+    bef = new node;
+    bef->next = NULL;
+    temp = head;
+    bef->next = temp;
+ 	while(bef->next!=NULL){
+ 		cout << "|"  << setw ( 12 )<< temp->data.ID << "|"  << setw ( 10 ) << temp->data.FName<< "|" << setw ( 12 ) 
+		<< temp->data.LName << "|"  << setw ( 6 )<< temp->data.Gender << "|"<< setw ( 13 ) << temp->data.PNum  << "|"
+		<< setw ( 35 ) << temp->data.Email  << "|"<< setw ( 25 )<<temp->data.Dep  << "|"<< setw ( 20 ) << temp->data.AccNum  
+		<< "|"  << setw ( 10 )<< temp->data.Salary << "|\n";
+ 		if(temp->next != NULL) {
+		 	temp = temp->next;
+	 	}
+		bef = bef->next;	
+	 }
 }
